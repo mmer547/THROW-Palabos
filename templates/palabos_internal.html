@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="item0-tab" data-toggle="tab" href="#item0" role="tab" aria-controls="item0" aria-selected="true">Geometry</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">Fluid</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">Numerics</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="item3-tab" data-toggle="tab" href="#item3" role="tab" aria-controls="item3" aria-selected="false">Simulation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="item4-tab" data-toggle="tab" href="#item4" role="tab" aria-controls="item4" aria-selected="false">Run</a>
+        </li>
+    </ul>
+    <form action="/palabos_internal" method="post" enctype = multipart/form-data>
+        <div class="tab-content">
+            <!-- データ読込・消去 -->
+            <div class="tab-pane fade show active" id="item0" role="tabpane0" aria-labelledby="item0-tab">
+                <div class="row">
+                    <div class="col-md-4" id="main">
+                        <label for="workdir">計算ケース名</label>
+                        <input type="text" name="workdir" value={{ workdir }}><br>
+                        <label for="mesh">STLファイルアップロード(モデル単位系はm)</label>
+                        <input type=file name="mesh">
+                        <br><br>
+                        <!-- openings -->
+                        <label for="inletDiameter">入口直径</label>
+                        <input type="text" name="inletDiameter" value={{ inletDiameter }}><br>
+                        <label for="averageInletVelocity">平均入口流速</label>
+                        <input type="text" name="averageInletVelocity" value={{ inletDiameter }}><br>
+                        <label for="sortDirection">流入出面判定方向</label>
+                        <input type="text" name="sortDirection" value={{ sortDirection }}><br>
+                        <label for="type">流入出面の指定</label>
+                        <input type="text" name="type" value={{ type }}><br>
+                        <!-- /openings -->
+                    </div>
+                    <hr>
+                    <br><br>
+                    <div class="col-md-8">
+                        <iframe src="/static/html/stlreader.html" width="100%" height="500px" name="stlreader"></iframe>
+                    </div>
+                    <a href="/" >トップに戻る</a>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="item1" role="tabpanel" aria-labelledby="item1-tab">
+                <div id="tab-main">
+                    <label for="kinematicViscosity">動粘性係数</label>
+                    <input type="text" name="kinematicViscosity" value={{ kinematicViscosity }}><br>
+                    <label for="density">密度</label>
+                    <input type="text" name="density" value={{ density }}><br>
+                    <label for="volume">体積</label>
+                    <input type="text" name="volume" value={{ volume }}><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
+                <div id="tab-main">
+                    <label for="referenceDirection">メッシュ解像度指定方向</label>
+                    <input type="text" name="referenceDirection" value={{ referenceDirection }}><br>
+                    <label for="referenceResolution">メッシュ解像度</label>
+                    <input type="text" name="referenceResolution" value={{ referenceResolution }}><br>
+                    <label for="nuLB">nuLB</label>
+                    <input type="text" name="nuLB" value={{ nuLB }}><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="item3" role="tabpanel" aria-labelledby="item3-tab">
+                <div id="tab-main">
+                    <label for="simTime">simTime</label>
+                    <input type="text" name="simTime" value={{ simTime }}><br>
+                    <label for="maxLevel">maxLevel</label>
+                    <input type="text" name="maxLevel" value={{ maxLevel }}><br>
+                    <label for="epsilon">epsilon</label>
+                    <input type="text" name="epsilon" value={{ epsilon }}><br>
+                    <label for="performOutput">performOutput</label>
+                    <input type="text" name="performOutput" value={{ performOutput }}><br>
+                    <label for="doImages">doImages</label>
+                    <input type="text" name="doImages" value={{ doImages }}><br>
+                    <label for="useAllDirections">useAllDirections</label>
+                    <input type="text" name="useAllDirections" value={{ useAllDirections }}><br>
+                    <label for="useRegularizedWall">useRegularizedWall</label>
+                    <input type="text" name="useRegularizedWall" value={{ useRegularizedWall }}><br>
+                    <label for="useIncompressible">useIncompressible</label>
+                    <input type="text" name="useIncompressible" value={{ useIncompressible }}><br>
+                    <label for="poiseuilleInlet">poiseuilleInlet</label>
+                    <input type="text" name="poiseuilleInlet" value={{ poiseuilleInlet }}><br>
+                    <label for="convectiveScaling">convectiveScaling</label>
+                    <input type="text" name="convectiveScaling" value={{ convectiveScaling }}><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="item4" role="tabpanel" aria-labelledby="item4-tab">
+                <div id="tab-main">
+                    <button name="runCalc" type="submit" class="btn btn-primary btn-lg"
+                    onclick="javascript:document.all.loading.style.display='block';OnLinkClick()">Download
+                    </button><br>
+                    <!-- <div id="loading" style="display:none;">
+                            <img src="/static/img/loading-l-7.gif" />
+                        </div> -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

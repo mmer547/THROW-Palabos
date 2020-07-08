@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% if title %}
+        <title>{{ title }}</title>
+        {% else %}
+        <title>Bootstrap 101 Template</title>
+        {% endif %}
+        <!-- Bootstrap -->
+        <script src="/static/js/jquery.js"></script>
+        <script src="/static/js/bootstrap/js/bootstrap.js"></script>
+        <link href="/static/js/bootstrap/css/mybootstrap.css" rel="stylesheet">
+        <script>
+            function OnLinkClick() {
+            var doc = document.getElementsByTagName("iframe")[0].contentWindow.document;
+            var stlfile = doc.getElementsByName('stlfile')[0];
+            document.getElementsByName('stlfile')[0] = stlfile;
+            }
+        </script>
+    </head>
+    <body>
+        <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+            <a href="/" class="navbar-brand">THROW-GUI</a>
+        </nav>
+        {% block content %}{% endblock %}
+    </body>
+</html>

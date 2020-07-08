@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+    </header>
+    <body>
+        <script type="text/javascript" src="/static/js/vtk/vtk.js"></script>
+        <script type="text/javascript">
+            const reader = vtk.IO.Geometry.vtkSTLReader.newInstance();
+            const mapper = vtk.Rendering.Core.vtkMapper.newInstance({ scalarVisibility: false });
+            const actor = vtk.Rendering.Core.vtkActor.newInstance();
+
+            function update(){
+                const fullScreenRenderer = vtk.Rendering.Misc.vtkFullScreenRenderWindow.newInstance();
+                const renderer = fullScreenRenderer.getRenderer();
+                const renderWindow = fullScreenRenderer.getRenderWindow();
+
+                const resetCamera = renderer.resetCamera;
+                const render = renderWindow.render;
+
+                actor.setMapper(mapper);
+                mapper.setInputConnection(reader.getOutputPort());
+
+                renderer.addActor(actor);
+                resetCamera();
+                render();
+            }
+
+            var fileInput = parent.document.getElementsByName('mesh');
+
+            var stlText = ""              
+            function handleFile(event) {
+                document.all.loading.style.display='block';
+                event.preventDefault();
+                const dataTransfer = event.dataTransfer;
+                const files = event.target.files || dataTransfer.files;
+                const loopnum = event.target.files.length
+                let count = 0;
+                for(let i = 0; i < loopnum; i++){
+                    let fileReader = new FileReader();
+                    fileReader.onload = function (event) {
+                        temp = fileReader.result;
+                        stlText += temp +'\n';
+                    };
+
+                    fileReader.onloadend = function(event) {
+                        if(++count === files.length){
+                            reader.parseAsText(stlText);
+                            update();
+                        }
+                    };
+                    (function(i) {
+                        fileReader.readAsText(files[i]);
+                    })(i);
+                }
+            }
+
+            fileInput[0].addEventListener('change', handleFile); 
+        </script>
+        <div id="loading" style="display:none;">
+            <img src="/static/img/loading-l-7.gif" />
+        </div>
+    </body>
+
+</html>
